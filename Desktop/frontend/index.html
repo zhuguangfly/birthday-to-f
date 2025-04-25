@@ -1,0 +1,55 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>曾吉超干活网</title>
+  <style>
+    body { text-align: center; margin-top: 100px; font-family: sans-serif; }
+    button { padding: 20px; font-size: 20px; margin: 10px; border-radius: 10px; }
+    .firework { position: absolute; width: 5px; height: 5px; background: red; animation: boom 0.6s ease-out forwards; }
+    @keyframes boom {
+      100% {
+        transform: translate(100px, -100px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">曾吉超干活网</h1>
+  <button id="workBtn">干活</button>
+  <button id="exitBtn">退出干活</button>
+
+  <script>
+    const workBtn = document.getElementById("workBtn");
+    const exitBtn = document.getElementById("exitBtn");
+    const title = document.getElementById("title");
+
+    workBtn.onclick = async () => {
+      const res = await fetch("https://workweb-backend.onrender.com");
+      const data = await res.json();
+      title.textContent = data.message;
+      createFireworks();
+    };
+
+    exitBtn.onclick = async () => {
+      const res = await fetch("https://workweb-backend.onrender.com");
+      const data = await res.json();
+      title.textContent = data.message;
+    };
+
+    function createFireworks() {
+      for (let i = 0; i < 20; i++) {
+        const f = document.createElement("div");
+        f.className = "firework";
+        f.style.left = (window.innerWidth / 2 + Math.random() * 100 - 50) + "px";
+        f.style.top = (window.innerHeight / 2 + Math.random() * 100 - 50) + "px";
+        f.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        document.body.appendChild(f);
+        setTimeout(() => f.remove(), 600);
+      }
+    }
+  </script>
+</body>
+</html>
